@@ -1,0 +1,102 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+
+class Employee{
+	string name;
+	int emp_num;
+	string hire_date;
+public:
+	Employee(){
+		name = "";
+		emp_num = 0;
+		hire_date = "";
+	}
+	Employee(string name, int emp_num, string hireDate){
+		this->name = name;
+		this->emp_num = emp_num;
+		this->hire_date = hireDate;
+	}
+
+	void setName(string name){
+		this->name = name;
+	}
+
+	void setEmp_num(int n){
+		this->emp_num = n;
+	}
+
+	void setDate(string d){
+		this->hire_date = d;
+	}
+
+	string getName(){
+		return name;
+	}
+	string getDate(){
+		return hire_date;
+	}
+	int getEmp_num(){
+		return emp_num;
+	}
+	void print(){
+		cout << "Name: " << this->getName() << "\nEmployee Number: " << this->getEmp_num() << "\nHire Date: "
+			<< this->getDate() << endl;
+	}
+};
+
+
+
+
+class ProductionWorker :public Employee{
+	int shift;
+	double hourly_pay_rate;
+public:
+	void setShift(int shift){
+		if (shift == 1)
+		{
+			this->shift = shift;
+			cout << "Day Shift\n";
+		}
+		else if (shift==2){
+			this->shift = shift;
+			cout << "Night Shift\n";
+		}
+		else{
+			cout << "Wrong shift input\n";
+			this->shift = 0;
+		}
+	}
+	void setHPR(double x){
+		this->hourly_pay_rate = x;
+	}
+	int getShift(){
+		return shift;
+	}
+	double getHPR(){
+		return hourly_pay_rate;
+	}
+	ProductionWorker(){
+		shift = 1;
+		hourly_pay_rate = 0;
+	}
+	ProductionWorker(int shift, double HPR, string name, int emp_num, string hireDate) :
+		Employee(name, emp_num, hireDate){
+		this->setShift(shift);
+		this->hourly_pay_rate = HPR;
+	}
+	void print(){
+		Employee::print();
+	cout << "Shift: " << this->getShift() << "\nHourly Pay Rate: " << this->getHPR() << endl;
+
+	}
+};
+
+int main(){
+	ProductionWorker p(2, 500, "Muhammad Tayyab Nawaz", 1, "30-7-2020");
+	p.print();
+
+	system("pause");
+	return 0;
+}
