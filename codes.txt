@@ -1,0 +1,190 @@
+1- Find Minimum value in BST
+Node* minValNode(Node* node) {
+		if (node == nullptr || root->left==nullptr) {
+			return root;
+		}
+
+		if (node->left != nullptr) {
+			return minValNode(node->left);
+		}
+
+	}
+2 - Find Maximum value is BST
+Node* maxValNode(Node* node) {
+		if (node == nullptr || root->right==nullptr) {
+			return root;
+		}
+
+		if (node->right != nullptr) {
+			return maxValNode(node->right);
+		}
+
+	}
+3- Find Range
+int findRange(Node* root){
+		Node* max = maxValNode(root);
+		Node* min = minValNode(root);
+		return max->data - min->data;
+	}
+4- isBST
+bool isBST(Node *root,Node *min,Node *max){
+		if (root == nullptr){
+			return true;
+		}
+		if (min != NULL && root->data <= min->data){
+			return false;
+		}
+		if (max != NULL && root->data >= max->data){
+			return false;
+		}
+		return isBST(root->left, min, root) && isBST(root->right, root, max);
+	}
+5- Node* findInorderSuccessor(Node* root, int key) {
+		if (root == nullptr) {
+			return nullptr;  // Base case: If the tree is empty or the key is not found, return nullptr.
+		}
+
+		if (key < root->data) {
+			// The key is in the left subtree, so recurse on the left subtree
+			Node* leftSuccessor = findInorderSuccessor(root->left, key);
+			return (leftSuccessor != nullptr) ? leftSuccessor : root;
+		}
+		else if (key > root->data) {
+			// The key is in the right subtree, so recurse on the right subtree
+			return findInorderSuccessor(root->right, key);
+		}
+		else {
+			// Key is found in the current node
+			if (root->right != nullptr) {
+				// If the node has a right subtree, find the minimum node in that subtree
+				return minValNode(root->right);
+			}
+			else {
+				// If there is no right subtree, return nullptr
+				return nullptr;
+			}
+		}
+	}
+6- //find Non-leaf nodes 
+	int findNonLeafNodes(Node *root){
+		if (root == nullptr){
+			return 0;
+		}
+		else{
+			if (root->left != nullptr || root->right != nullptr){
+				return 1 + findNonLeafNodes(root->left) + findNonLeafNodes(root->right);
+			}
+			else{
+				return findNonLeafNodes(root->left) + findNonLeafNodes(root->right);
+			}
+		}
+	}
+7- //find leaf nodes 
+	int findLeafNodes(Node *root){
+		if (root == nullptr){
+			return 0;
+		}
+		else{
+			if (root->left == nullptr && root->right == nullptr){
+				return 1;
+			}
+			else{
+				return findLeafNodes(root->left) +  findLeafNodes(root->right);
+			}
+		}
+	}
+8 - Find total nodes
+	int findTotalNodes(Node *root){
+		if (root == nullptr){
+			return 0;
+		}
+		else{
+			return findLeafNodes(root) + findNonLeafNodes(root);
+		}
+	}
+9-int maxDepth(Node *root){
+		if (root == nullptr){
+			return 0;
+		}
+		else{
+			int leftDepth = maxDepth(root->left);
+			int rightDepth = maxDepth(root->right);
+			if (leftDepth > rightDepth){
+				return 1 + leftDepth;
+			}
+			else{
+				return 1 + rightDepth;
+			}
+
+		}
+	}
+10-//find depth of a specific node
+	int findDepth(Node* root, int key) {
+		if (root == nullptr) {
+			return -1; // Key not found
+		}
+		else if (root->data == key) {
+			return 0; 
+		}
+		else if (key < root->data) {
+			int leftDepth = findDepth(root->left, key);
+			return (leftDepth == -1) ? -1 : 1 + leftDepth;
+		}
+		else {
+			int rightDepth = findDepth(root->right, key);
+			return (rightDepth == -1) ? -1 : 1 + rightDepth;
+		}
+	}
+11-//mirror
+	Node *mirror(Node *root){
+		if (root == nullptr){
+			return root;
+		}
+		else{
+			Node *temp = root->left;
+			root->left = mirror(root->right);
+			root->right = mirror(temp);
+		}
+
+		return root;
+	}
+12-ancestors
+//helper
+	bool ancestors(Node *root, int key, vector <int> &result){
+		if (root == nullptr){
+			return false;
+		}
+		else if (key < root->data){
+			result.push_back(root->data);
+			return ancestors(root->left, key, result);
+		}
+		else if (key>root->data){
+			result.push_back(root->data);
+			return ancestors(root->right, key, result);
+		}	
+		else{
+			return true;
+		}
+
+	}
+// function
+void ancestors(Node *root,int key){
+		vector<int> result;
+		if (ancestors(root, key, result)){
+			cout << "Ancestors of " << key << " are:\n";
+			if (!result.empty()){
+				for (auto i : result){
+					cout << i << " ";
+				}
+				cout << "\n";
+			}
+			else{
+				cout << "NULL\n";
+			}
+		}
+		else{
+			cout << "Key not found\n";
+		}
+	}
+
+	
